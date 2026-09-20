@@ -1,64 +1,64 @@
-# 페이지 구성과 디자인 방향
+# Page structure and design direction
 
-## 시각 방향
+## Visual direction
 
-사용자 참고 이미지의 넉넉한 여백, 얇은 경계선, 흰색·따뜻한 회색 배경, 검정 primary button, 절제된 amber 강조를 적용.
-참고 이미지의 어두운 영상 오버레이와 재생 버튼은 복제하지 않음.
-화면 문구는 영어, 기획 문서는 한국어 중심.
+Use generous spacing, thin borders, white and light neutral backgrounds, dark primary buttons, and restrained status accents. The current interface applies an Inter-based, neutral-first system inspired by modern utility CSS: slate surfaces, one sky-blue information accent, and semantic colors used only for status indicators.
+Do not reproduce the dark video overlays or playback controls from the early visual references.
+All interface and planning-document copy is in English.
 
 ## 1. Home
 
-- Header: Heat Check-In / How it works / Open call sheet.
-- Eyebrow: NYC · Behavioral health care teams.
-- Headline: Know who to check on before the heat arrives.
-- Description: An explained outreach list, focused questions, and a clear next action for your care team.
-- CTA: Open call sheet.
-- 세 설명 카드: Prioritize outreach / Ask what is missing / Follow through.
-- 실제 사용자는 직접 workspace로 들어갈 수 있도록 함.
+- Header: Heat Check-In / Overview / Call sheet / Data & provenance.
+- Eyebrow: Behavioral health · Extreme heat.
+- Headline: Turn a heat alert into a human check-in.
+- Description: One explained call list, only the questions that matter, and an owner for every next step.
+- CTA: Open team call sheet.
+- Three workflow explanations: Prioritize / Check in / Follow through.
+- Operational users can enter the workspace directly.
 
 ## 2. Call-sheet workspace
 
-- 상단: 팀 이름, event 상태, Simulate advisory.
-- 이벤트 배너: 기간·영향 지역·source timestamp·simulated/live 구분.
-- 세 그룹 탭과 수량.
-- 왼쪽 50%: 팀 담당 지역·자원 맥락 지도.
-- 오른쪽 50%: 대상자 연락 목록. 대상자 선택 시 같은 영역이 통화 카드로 전환되는 안을 제안.
-- 주요 액션: Open card, Claim, Print call sheet.
-- Print는 필요한 최소 정보만 출력하며 담당자·출력일·synthetic 표시 포함.
+- Top: team name, event state, and Simulate advisory.
+- Event banner: event dates, affected area, source timestamp, and simulated/live distinction.
+- Three group filters with calculated counts.
+- Left side: team service-area and neighborhood context map.
+- Right side: client outreach list. Selecting a client changes this area into the call card.
+- Primary actions: Open card, Claim, and Print call sheet.
+- Printed output includes only the necessary information, owner, print date, and synthetic-data label.
 
-지도와 연락 목록의 50:50 배치는 사용자 확정 사항. 지도는 개인 위험 점수의 시각화로 쓰지 않음. 실제 client 주소를 표시하지 않으며 데모 위치는 명확한 합성/지역 맥락으로 표시.
+The split layout keeps the map and outreach workflow side by side on wide screens. The map is not a visualization of individual risk. It does not display real client addresses, and all demo locations are explicitly labeled as synthetic or neighborhood context.
 
-## 3. Client call card — 오른쪽 상세 패널
+## 3. Client call card — right detail panel
 
-- Synthetic client ID, priority group, owner.
+- Synthetic client ID, priority group, and owner.
 - Why flagged / Known / Unknown or stale.
-- Consent and preferred contact.
+- Consent and preferred contact method.
 - Adaptive questions and note.
 - Outcome: Reached / Unreachable / Declined.
-- Save check-in → 검토 가능한 action draft.
-- Close 또는 Back to list.
+- Save check-in → reviewable action draft.
+- Close or Back to list.
 
-## 4. Follow-up view — workspace 내부 탭
+## 4. Follow-up view — workspace tab
 
-- 필요, 대상자, 담당 역할, 마감, 상태.
-- 필터: Open / Blocked / Verified.
-- 지원 확인 시 기록자·시각·확인 근거 저장.
-- 미배정·기한 경과·연락 실패를 supervisor가 확인.
+- Need, client, assigned role, due date, and status.
+- Filters: Open / Blocked / Verified.
+- When support is verified, store the recorder, timestamp, and verification evidence.
+- Supervisors can identify unassigned, overdue, and unsuccessful-contact cases.
 
-## 5. Guide — 참고 이미지의 보조 패널
+## 5. Guide — supporting panel
 
-- workspace에서 열고 닫는 오른쪽 패널.
-- 추천 질문: Why is this client listed? / What is still unknown? / What happens after an unsuccessful call?
-- 실제 AI 연결 전에는 scripted demo guide로 명시.
-- 현재 client facts와 workflow 설명으로 범위 제한.
-- Guide가 call card의 주요 행동을 가리지 않도록 한 번에 하나의 패널을 우선 표시.
+- Open and close from the workspace.
+- Suggested questions: Why is this client listed? / What is still unknown? / What happens after an unsuccessful call?
+- Label it as a scripted demo guide until a real AI connection exists.
+- Limit its scope to current client facts and workflow explanations.
+- Prioritize one panel at a time so the Guide does not cover the call card’s primary actions.
 
-## 공통 상태
+## Shared states
 
-- No advisory: readiness 목록 유지.
-- No matching clients: 영향을 받는 caseload 없음 표시.
-- All confirmed: 다음 검토 필요 시점 안내, 전체 목록 유지.
-- Data unavailable: 정보 없음 표시, 안전함으로 해석하지 않음.
-- Save failure: 입력 보존 및 재시도.
-- Mobile: 목록 우선, 지도는 별도 탭, 상세는 전체 화면.
-- 접근성: 색상과 텍스트를 함께 사용, 키보드 이동, 패널 포커스 복귀, label이 있는 입력.
+- No advisory: keep the readiness list available.
+- No matching clients: state that no clients in the caseload match the active event.
+- All confirmed: show the next review point while keeping the full list accessible.
+- Data unavailable: show that information is unavailable; do not interpret missing information as safety.
+- Save failure: preserve the input and support retry.
+- Mobile: prioritize the list, place the map below it, and use a full-width detail view.
+- Accessibility: pair color with text, support keyboard navigation, restore focus after closing panels, and provide labels for inputs.

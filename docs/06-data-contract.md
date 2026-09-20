@@ -1,45 +1,45 @@
-# 대상자 데이터 교체 계약
+# Client-data replacement contract
 
-현재 화면은 공식 clinical dataset이 아니라 명시적인 프로젝트 합성 fixture를 사용합니다. 실제 환자 정보를 이 데모에 넣지 마세요. 브라우저 저장은 실제 임상 운영용 보안·권한 모델이 아닙니다.
+The current interface uses explicit project-created synthetic fixtures, not the official clinical dataset. Do not add real patient information to this demo. Browser storage does not provide the security or authorization model required for clinical operations.
 
-## 필드 구조
+## Field structure
 
-`id`: 유일한 문자열. `synthetic`: 반드시 true.
+`id`: unique string. `synthetic`: must be `true`.
 
-다음 필드는 각각 `{ "value": ..., "source": "원본 출처", "verified_at": "YYYY-MM-DD 또는 null" }` 구조입니다.
+Each field below uses the structure `{ "value": ..., "source": "original source", "verified_at": "YYYY-MM-DD or null" }`.
 
-- nta: 2020 NTA 코드. 없음은 unknown. ZIP에서 임의 추론하지 않음.
-- zip: ZIP 문자열.
-- cohort: 제공된 SMI/SUD 구분. 없음은 unknown.
-- age: 나이 또는 unknown.
-- language: 선호 언어 또는 unknown.
-- consent: yes / no / unknown.
-- cooling: working / broken / unavailable / unknown.
-- backup: yes / no / unknown.
-- transport: needed / no / unknown.
-- affordability: yes / no / unknown.
-- clinical: yes / no / unknown. 임상 질문 유무이며 진단이나 약물 처방이 아님.
-- contact: 합성 연락 선호 또는 unknown.
+- `nta`: 2020 NTA code. Use `unknown` when unavailable. Do not infer it arbitrarily from ZIP.
+- `zip`: ZIP-code string.
+- `cohort`: supplied SMI/SUD group. Use `unknown` when unavailable.
+- `age`: age or `unknown`.
+- `language`: preferred language or `unknown`.
+- `consent`: `yes` / `no` / `unknown`.
+- `cooling`: `working` / `broken` / `unavailable` / `unknown`.
+- `backup`: `yes` / `no` / `unknown`.
+- `transport`: `needed` / `no` / `unknown`.
+- `affordability`: `yes` / `no` / `unknown`.
+- `clinical`: `yes` / `no` / `unknown`. This indicates whether a clinical question exists; it is not a diagnosis or medication order.
+- `contact`: synthetic contact preference or `unknown`.
 
-`verified_at`은 실제 정보 확인일입니다. 파일 다운로드 날짜나 청구 날짜로 대체하지 않습니다. 모르는 값은 value=unknown, verified_at=null로 둡니다.
+`verified_at` is the date on which the information was actually verified. Do not substitute the file-download date or a billing date. For unknown values, use `value=unknown` and `verified_at=null`.
 
-owner, outcome, notes, tasks, history는 workflow에서 생성합니다. 새 import에서는 생략 가능합니다.
+`owner`, `outcome`, `notes`, `tasks`, and `history` are created by the workflow and may be omitted from a new import.
 
-## 교체 절차
+## Replacement procedure
 
-1. 담당자 파일과 데이터 사전 수령.
-2. 합성 여부·대상 집단·필드 의미 확인.
-3. 원본을 보존하고 위 canonical 구조에 mapping. 없는 값은 unknown.
-4. `python3 scripts/prepare_data.py --clients path/to/canonical-synthetic-clients.json`
-5. 브라우저의 Reset demo로 이전 fixture 편집 기록 제거.
-6. 모든 대상자 수, unknown 상태, 출처, event ZIP 필터를 다시 검증.
+1. Receive the client file and data dictionary.
+2. Confirm whether the data is synthetic, the represented population, and each field’s meaning.
+3. Preserve the original and map it into the canonical structure above. Use `unknown` for unavailable values.
+4. Run `python3 scripts/prepare_data.py --clients path/to/canonical-synthetic-clients.json`.
+5. Use Reset demo in the browser to remove edits associated with the previous fixtures.
+6. Revalidate client counts, unknown states, provenance, and the event ZIP filter.
 
-현재 fixture는 4개 South Bronx NTA와 ZIP 10454/10455를 명시적으로 배정합니다. 이 배정은 실제 ZIP–NTA crosswalk가 아닙니다. 새 데이터의 지역 범위를 사용할 때 HVI 선택 범위·지도 영역·모의 이벤트 ZIP도 함께 변경해야 합니다.
+The current fixtures explicitly assign four South Bronx NTAs and ZIP codes 10454/10455. These assignments are not a real ZIP–NTA crosswalk. When using a new dataset’s geographic scope, update the HVI selection, map area, and simulated-event ZIP codes together.
 
-## 현재 우선순위·confidence 제한
+## Current priority and confidence limitations
 
-임의 가중치 점수는 구현하지 않았습니다. 우선순위는 미해결 필요 / 확인 필요 / 확인 완료입니다. 그룹 내부 fixture 순서는 임상 순위가 아닙니다. 6개 필드 중 최신 확인 항목 수는 정보 완전성이고, 모델 confidence가 아닙니다.
+No arbitrary weighted score is implemented. Priority uses three groups: unresolved need, needs verification, and plan confirmed. Fixture order within a group is not a clinical ranking. The count of recently verified values across six fields represents information completeness, not model confidence.
 
 ## Decision table
 
-`dist/data/demo.json`의 decision_table은 field, values, task, owner를 가진 편집 가능한 데이터입니다. 지속적인 변경은 prepare_data.py의 원본 설정에도 반영해야 합니다. 현재 네 개 규칙은 데모 업무 라우팅이며 clinician 검토 전입니다. 자유로운 의료 조언이나 약물 변경을 수행하지 않습니다.
+The `decision_table` in `dist/data/demo.json` is editable data containing `field`, `values`, `task`, and `owner`. Persistent changes must also be applied to the source configuration in `prepare_data.py`. The current four rules are demo workflow-routing rules and have not been reviewed by clinicians. They do not provide open-ended medical advice or make medication changes.
