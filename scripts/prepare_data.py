@@ -39,7 +39,7 @@ for i in range(12):
         'clinical': field('unknown' if unknown else 'no'),
         'contact': field('unknown' if unknown else 'Phone — demo, no number stored', None if unknown else '2026-09-18'),
         'owner': '', 'outcome': 'Unreachable' if i in [2, 6] else '', 'notes': '',
-        'tasks': ([{'type':'Cooling support', 'owner':'Housing staff', 'due':'2026-09-20', 'status':'Open', 'evidence':''}] if unresolved else []) + ([{'type':'Transportation', 'owner':'Resource partner', 'due':'2026-09-20', 'status':'Open', 'evidence':''}] if i < 2 else []),
+        'tasks': ([{'type':'Cooling support', 'owner':'Housing staff', 'due':'2026-09-20', 'status':'Requested', 'evidence':''}] if unresolved else []) + ([{'type':'Transportation', 'owner':'Resource partner', 'due':'2026-09-20', 'status':'Requested', 'evidence':''}] if i < 2 else []),
         'history': []
     })
 if args.clients:
