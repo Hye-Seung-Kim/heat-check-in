@@ -6,16 +6,18 @@ ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--clients', type=Path, help='Canonical synthetic client JSON; see docs/06-data-contract.md')
 args = parser.parse_args()
-REPO = ROOT.parent
 OUT = ROOT / 'dist/data'
 OUT.mkdir(parents=True, exist_ok=True)
 
 def rows(path):
-    with (REPO / path).open(newline='', encoding='utf-8-sig') as f:
+    with (ROOT / path).open(newline='', encoding='utf-8-sig') as f:
         return list(csv.DictReader(f))
 
-hvi = rows('datasets/search-nyc-heat-vulnerability-index/hvi-nta-2020.csv')
-heat = rows('datasets/search-nyc-heat-syndrome-surveillance/heat-ed-visits-datawrapper-snapshot.csv')
+# Cached snapshots vendored under data-sources/ so this script runs standalone
+# from a fresh clone. Re-pull from the source URLs in the payload below if a
+# refresh is ever needed.
+hvi = rows('data-sources/hvi-nta-2020.csv')
+heat = rows('data-sources/heat-ed-visits-datawrapper-snapshot.csv')
 selected = [r for r in hvi if r['NTACode'] in ['BX0101', 'BX0102', 'BX0201', 'BX0202']]
 def field(value, checked='2026-09-18'):
     return {'value': value, 'source': 'Project-created synthetic fixture', 'verified_at': checked}
