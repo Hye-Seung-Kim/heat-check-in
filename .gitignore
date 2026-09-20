@@ -1,3 +1,7 @@
 .DS_Store
 node_modules/
 *.log
+
+# Impeccable design-skill engine binary — platform-specific (~12MB),
+# auto-downloaded by scripts/impeccable on first hook run if missing.
+.claude/skills/impeccable/scripts/bin/
